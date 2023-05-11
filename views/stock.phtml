@@ -10,7 +10,7 @@
     </thead>
     <tbody>
         <?php
-        foreach ($results as $product) : ?>
+        foreach ($products as $product) : ?>
             <tr <?php if ($product['stock'] <= $product['stock_alert']) : ?> class="table-danger" <?php endif ?>>
                 <!-- <th scope="row">1</th> -->
                 <td><?= $product['name'] ?></td>

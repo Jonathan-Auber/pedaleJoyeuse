@@ -4,18 +4,13 @@ namespace controllers;
 
 use models\ProductsRepository;
 
-class ProductsController
+class ProductsController extends Controller
 {
-    public function index()
-    {
-        $page = "views/usersAccueil.phtml";
-        require_once "views/base.phtml";
-    }
+    protected $modelName = \models\ProductsRepository::class;
 
     public function stock()
     {
-        $data = new ProductsRepository;
-        $results = $data->findAll();
+        $products = $this->model->findAll();
 
         $page = "views/stock.phtml";
         require_once "views/base.phtml";

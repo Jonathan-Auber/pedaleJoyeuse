@@ -2,7 +2,7 @@
 
 namespace config;
 
-use controllers\ProductsController;
+use controllers\UsersController;
 use Exception;
 
 class Routing
@@ -30,8 +30,8 @@ class Routing
                 }
             } // S'il n'y a pas de valeur pour controller, alors on affiche la page d'accueil
             else {
-                $admin = new ProductsController();
-                $admin->index();
+                $index = new UsersController();
+                $index->index();
             }
         } // Si il y une erreur quelque part, on la récupère dans le bloc catch
         catch (Exception $e) {
