@@ -2,7 +2,9 @@
 
 namespace controllers;
 
+use Exception;
 use models\ProductsRepository;
+use utils\Render;
 
 class ProductsController extends Controller
 {
@@ -10,9 +12,18 @@ class ProductsController extends Controller
 
     public function stock()
     {
+        $pageTitle = "Stock";
         $products = $this->model->findAll();
-
-        $page = "views/stock.phtml";
-        require_once "views/base.phtml";
+        if (isset($_SESSION['status'])) {
+            // if ($_SESSION['status'] === "boss") {
+                // Render::render("adminStock", compact('pageTitle', 'products'));
+            // } else
+            
+            if ($_SESSION['status'] === "seller") {
+                Render::render("stock", compact('pageTitle', 'products'));
+            }
+        } else {
+            throw new Exception("Vous n'êtes pas connecté !");
+        }
     }
 }

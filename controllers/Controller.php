@@ -2,6 +2,7 @@
 
 namespace controllers;
 
+// Class abstraite parente des controller
 abstract class Controller
 {
     protected $model;
@@ -9,6 +10,7 @@ abstract class Controller
 
     public function __construct()
     {
+        // La propriété model créer une nouvelle instance du controller enfant
         $this->model = new $this->modelName();
     }
 }

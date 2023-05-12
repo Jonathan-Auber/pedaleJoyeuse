@@ -9,6 +9,7 @@ class Routing
 {
     public function get()
     {
+        session_start();
         // On essaie le bloc de code qui suit
         try {
             // Si il y a une valeur pour controller dans l'url alors ..
@@ -24,6 +25,12 @@ class Routing
                     $controller = new $controllerName(); // new UsersController.php
                     // Autoload
                     $controller->$methodName(); // $controller->post();
+                    if (isset($newUrl[2])) {
+                        $id = $newUrl[2];
+                        $controller->$methodName($id);
+                    } else {
+                        $controller->$methodName(); 
+                    }
                 } else {
                     // S'il manque un paramètre, la page n'existe pas, on renvois une erreur qui sera récupérée dans le bloc catch
                     throw new Exception("Erreur 404");
@@ -39,7 +46,8 @@ class Routing
             $errorMessage = $e->getMessage();
             // On affiche l'erreur sur la page d'erreur
             // A FAIRE!!!!
-            require('views/error.phtml');
+            $page = 'views/error.phtml';
+            require_once "views/layout.phtml";
         }
     }
 }
