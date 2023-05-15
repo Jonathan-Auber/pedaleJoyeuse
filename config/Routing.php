@@ -3,6 +3,7 @@
 namespace config;
 
 use controllers\UsersController;
+use utils\Render;
 use Exception;
 
 class Routing
@@ -24,12 +25,11 @@ class Routing
                     $methodName = strtolower($newUrl[1]); // post
                     $controller = new $controllerName(); // new UsersController.php
                     // Autoload
-                    $controller->$methodName(); // $controller->post();
                     if (isset($newUrl[2])) {
                         $id = $newUrl[2];
-                        $controller->$methodName($id);
+                        $controller->$methodName($id); // $controller->post(4);
                     } else {
-                        $controller->$methodName(); 
+                        $controller->$methodName(); // $controller->post();
                     }
                 } else {
                     // S'il manque un paramètre, la page n'existe pas, on renvois une erreur qui sera récupérée dans le bloc catch
@@ -46,8 +46,9 @@ class Routing
             $errorMessage = $e->getMessage();
             // On affiche l'erreur sur la page d'erreur
             // A FAIRE!!!!
-            $page = 'views/error.phtml';
-            require_once "views/layout.phtml";
+            // $page = 'views/error.phtml';
+            // require_once "views/layout.phtml";
+            Render::render("error", compact("errorMessage"));
         }
     }
 }

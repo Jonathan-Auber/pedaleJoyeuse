@@ -15,9 +15,9 @@ class ProductsController extends Controller
         $pageTitle = "Stock";
         $products = $this->model->findAll();
         if (isset($_SESSION['status'])) {
-            // if ($_SESSION['status'] === "boss") {
-                // Render::render("adminStock", compact('pageTitle', 'products'));
-            // } else
+            if ($_SESSION['status'] === "boss") {
+                Render::render("adminStock", compact('pageTitle', 'products'));
+            } else
             
             if ($_SESSION['status'] === "seller") {
                 Render::render("stock", compact('pageTitle', 'products'));

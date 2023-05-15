@@ -34,7 +34,7 @@ class UsersRepository extends Model
         return $query->fetch();
     }
 
-    public function disconnect(): void
+    public function logout(): void
     {
         $_SESSION = [];
         session_destroy();
