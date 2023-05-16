@@ -1,23 +1,26 @@
-<h1 class="text-center">SELLER</h1>
+<h1 class="text-center">BOSS</h1>
+
 <table class="table">
     <thead>
-        <tr>
+        <tr class="text-center align-middle">
             <!-- <th scope="col">#</th> -->
             <th scope="col">Produit</th>
             <th scope="col">Référence</th>
             <th scope="col">Stock</th>
             <th scope="col">Prix</th>
+            <?php if ($_SESSION['status'] === 'boss') { ?><th scope="col"></th> <?php } ?>
         </tr>
     </thead>
     <tbody>
         <?php
         foreach ($products as $product) : ?>
-            <tr <?php if ($product['stock'] <= $product['stock_alert']) : ?> class="table-danger" <?php endif ?>>
+            <tr <?php if ($product['stock'] <= $product['stock_alert']) : ?> class="table-danger align-middle text-center" <?php endif ?> class="align-middle text-center">
                 <!-- <th scope="row">1</th> -->
                 <td><?= $product['name'] ?></td>
                 <td><?= $product['reference'] ?></td>
                 <td><?= $product['stock'] ?></td>
                 <td><?= $product['price_ht'] ?></td>
+                <?php if ($_SESSION['status'] === 'boss') { ?> <td><a href="/pedaleJoyeuse/Products/formStock/<?= $product['id'] ?>" type="button" class="btn btn-primary w-50">Modifier</button></td> <?php } ?>
             </tr>
         <?php endforeach; ?>
     </tbody>

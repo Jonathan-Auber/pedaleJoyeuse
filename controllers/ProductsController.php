@@ -10,31 +10,35 @@ use utils\Render;
 class ProductsController extends Controller
 {
     protected $modelName = \models\ProductsRepository::class;
-    protected $controllerName = __CLASS__;
+    protected $user;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->user = new \models\UsersRepository();
+    }
 
     public function stock()
     {
+        $this->user->isConnected();
         $pageTitle = "Stock";
         $products = $this->model->findAll();
-        if ($this->userIsConnected) {
-            Render::render("Stock", compact('pageTitle', 'products'));
-            
-        } else {
-            var_dump(__CLASS__);
-
-            var_dump($this->controllerName);
-            throw new Exception("Vous n'êtes pas connecté !");
-        }
+        Render::render("Stock", compact('pageTitle', 'products'));
     }
 
-    public function stockEdit()
+    public function formStock(int $id) {
+        $this->user->isAdmin();
+        $pageTitle = "Edition des stock";
+        $product = $this->model->find($id);
+        Render::render("formProducts", compact("pageTitle", "product"));
+    }
+
+    public function updateStock(int $id)
     {
-        $pageTitle = "Edition des Stocks";
+        $this->user->isAdmin();
+        $this->model->updateStock($id);
+        $pageTitle = "Stock";
         $products = $this->model->findAll();
-        if ($this->userIsAdmin) {
-            Render::render("stockEdit", compact('pageTitle', 'products'));
-        } else {
-            throw new Exception("Vous n'avez pas les droits pour accèder à cette page !");
-        }
+        Render::render("stock", compact("pageTitle", "products"));
     }
 }

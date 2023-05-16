@@ -39,7 +39,6 @@ class UsersRepository extends Model
         if (isset($_SESSION)) {
             return TRUE;
         } else {
-            // A voir
             throw new Exception("Vous n'êtes pas connecté !");
         }
     }

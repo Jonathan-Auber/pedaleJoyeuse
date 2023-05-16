@@ -9,25 +9,25 @@ class UsersController extends Controller
 {
     protected $modelName = \models\UsersRepository::class;
 
+
     public function index()
     {
         // Si non connecté
-        Render::render("index");
+        $indexTitle = "Espace de connexion";
+        Render::render("index", compact("indexTitle"));
         // Si connecté
     }
 
     public function login()
     {
-        $login = $this->model->login();
-        if ($login) {
-            Render::render("index");
-        } else {
-            throw new Exception("Vous n'êtes pas connecté !");
-        }
+        $this->model->login();
+        $indexTitle = "Vous êtes connecté";
+        Render::render("index", compact("indexTitle"));
     }
     public function logout()
     {
         $this->model->logout();
-        header('Location: /pedaleJoyeuse');
+        $indexTitle = "Vous êtes bien déconnecté";
+        Render::render("index", compact("indexTitle"));
     }
 }
