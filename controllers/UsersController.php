@@ -12,8 +12,6 @@ class UsersController extends Controller
     public function index()
     {
         // Si non connecté
-        // $page = "views/index.phtml";
-        // require_once "views/layout.phtml";
         Render::render("index");
         // Si connecté
     }
@@ -22,8 +20,6 @@ class UsersController extends Controller
     {
         $login = $this->model->login();
         if ($login) {
-            // $page = "views/index.phtml";
-            // require_once "views/layout.phtml";
             Render::render("index");
         } else {
             throw new Exception("Vous n'êtes pas connecté !");

@@ -34,6 +34,26 @@ class UsersRepository extends Model
         return $query->fetch();
     }
 
+    public function isConnected()
+    {
+        if (isset($_SESSION)) {
+            return TRUE;
+        } else {
+            // A voir
+            throw new Exception("Vous n'êtes pas connecté !");
+        }
+    }
+
+    public function isAdmin()
+    {
+        if ($_SESSION['status'] === "boss") {
+            return TRUE;
+        } else {
+            // A voir
+            throw new Exception("Vous n'avez pas les droits pour accéder à cette page");
+        }
+    }
+
     public function logout(): void
     {
         $_SESSION = [];
