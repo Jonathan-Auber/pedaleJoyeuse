@@ -1,6 +1,6 @@
-<!-- Cette page renvoie sur le routeur -->
-<?php
 
+<?php
+// Cette page renvoie sur le routeur
 require_once "config/Autoloader.php";
 Autoloader::Autoload();
 
