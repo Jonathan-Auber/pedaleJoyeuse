@@ -26,17 +26,17 @@ class ProductsController extends Controller
         Render::render("Stock", compact('pageTitle', 'products'));
     }
 
-    public function formStock(int $id) {
+    public function formProduct(int $id) {
         $this->user->isAdmin();
         $pageTitle = "Edition des stock";
         $product = $this->model->find($id);
         Render::render("formProducts", compact("pageTitle", "product"));
     }
 
-    public function updateStock(int $id)
+    public function updateProduct(int $id)
     {
         $this->user->isAdmin();
-        $this->model->updateStock($id);
+        $this->model->updateProduct($id);
         $pageTitle = "Stock";
         $products = $this->model->findAll();
         Render::render("stock", compact("pageTitle", "products"));

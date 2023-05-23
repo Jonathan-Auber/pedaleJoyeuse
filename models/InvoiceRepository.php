@@ -2,6 +2,7 @@
 
 namespace models;
 
+use models\ProductsRepository;
 use Exception;
 use LengthException;
 
@@ -20,7 +21,8 @@ class InvoiceRepository extends Model
         $this->customersTable = "customers";
     }
 
-    public function invoiceData(int $id){
+    public function invoiceData(int $id)
+    {
         $query = $this->pdo->prepare("SELECT *
         FROM {$this->table}
         WHERE customer_id = :invoiceId
@@ -100,7 +102,7 @@ class InvoiceRepository extends Model
         return compact('invoiceLines', 'totalInvoice', 'totalInvoiceVat', 'totalWithVat');
     }
 
-    public function insertInvoiceLines(array $results, int $invoiceId)
+    public function insertInvoiceLines(array $results, int $invoiceId, ProductsRepository $productRepository)
     {
         $query = $this->pdo->prepare("INSERT INTO {$this->invoiceLinesTable} 
         SET invoice_id = :invoiceId, product_id = :productId, quantity = :quantity");
@@ -110,14 +112,7 @@ class InvoiceRepository extends Model
                 'productId' => $line['productId'],
                 'quantity' => $line['numberOfProducts']
             ]);
-            // Retirer le stock de la table produit
+            $productRepository->updateStock($line['productId'], $line['numberOfProducts']);
         }
-    }
-
-    public function updateStock($productID)
-    {
-        $query = $this->pdo->prepare("SELECT quantity 
-        FROM products 
-        WHERE id = :id");
-    }
+    }  
 }

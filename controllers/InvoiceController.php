@@ -37,22 +37,19 @@ class InvoiceController extends Controller
         Render::render("newInvoice", compact("pageTitle", "id"));
     }
 
-    public function insertInvoice(?int $id = null, ?int $invoiceId = null)
+    public function insertInvoice(int $id)
     {
-
-        if ($id) {
             $results = $this->model->postDataProcessing($_POST);
             $invoiceId = $this->model->insertInvoice($id);
-            $this->model->insertInvoiceLines($results, $invoiceId);
+            // 
+            $productRepository = $this->product;
+            $this->model->insertInvoiceLines($results, $invoiceId, $productRepository);
             $invoiceLinesData = $this->model->invoiceLinesData($invoiceId);
             extract($invoiceLinesData);
             $this->model->updateInvoice($invoiceId, $totalInvoice, $totalWithVat);
             $customerData = $this->customer->customerData($invoiceId);
             $pageTitle = "Facture";
             Render::render("invoice", compact("pageTitle", "invoiceId", "invoiceLines", "totalInvoice", "totalInvoiceVat", "totalWithVat", "customerData"));
-        } else {
-            throw new Exception("Erreur 404");
-        }
     }
 
     public function displayInvoice(int $id)

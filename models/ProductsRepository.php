@@ -8,7 +8,7 @@ class ProductsRepository extends Model
 {
     protected string $table = "products";
 
-    public function updateStock(int $id)
+    public function updateProduct(int $id)
     {
         if (!empty($_POST)) {
             $data = [];
@@ -30,5 +30,28 @@ class ProductsRepository extends Model
         } else {
             throw new Exception("Le remplissage des champs comporte une erreur !");
         }
+    }
+    public function getStock(int $productId) 
+    {
+        $query = $this->pdo->prepare("SELECT stock 
+        FROM products 
+        WHERE id = :productId");
+        $query->execute([
+            "productId" => $productId
+        ]);
+        return $query->fetch();
+    }
+
+    public function updateStock(int $productId, int $numberOfProduct)
+    {
+        $stock = $this->getStock($productId);
+        $newStock = $stock["stock"] - $numberOfProduct;
+        $query = $this->pdo->prepare("UPDATE products
+            SET stock = :newStock
+            WHERE id = :productId");
+            $query->execute([
+                'productId' => $productId,
+                'newStock' => $newStock
+            ]);
     }
 }

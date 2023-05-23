@@ -20,7 +20,7 @@
                 <td><?= $product['reference'] ?></td>
                 <td><?= $product['stock'] ?></td>
                 <td><?= $product['price_ht'] ?></td>
-                <?php if (isset($_SESSION['status']) && $_SESSION['status'] === 'boss') { ?> <td class="text-end"><a href="/pedaleJoyeuse/Products/formStock/<?= $product['id'] ?>" type="button" class="btn btn-primary w-50">Modifier</button></td> <?php } ?>
+                <?php if (isset($_SESSION['status']) && $_SESSION['status'] === 'boss') { ?> <td class="text-end"><a href="/pedaleJoyeuse/Products/formProduct/<?= $product['id'] ?>" type="button" class="btn btn-primary w-50">Modifier</button></td> <?php } ?>
             </tr>
         <?php endforeach; ?>
     </tbody>
