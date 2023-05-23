@@ -58,4 +58,20 @@ class UsersRepository extends Model
         $_SESSION = [];
         session_destroy();
     }
+
+    // En cours
+    public function salesByMonth($userId) {
+        $query = $this->pdo->prepare("SELECT i.user_id, l.product_id, SUM(l.quantity * p.price_ht) AS total_price, p.name
+        FROM invoices i
+        JOIN invoice_lines l ON i.id = l.invoice_id
+        JOIN products p ON p.id = l.product_id
+        WHERE i.user_id = :userId
+        GROUP BY l.product_id");
+
+        $query->execute([
+            'userId' => $userId
+        ]);
+
+        return $query->fetchAll();
+    }
 }

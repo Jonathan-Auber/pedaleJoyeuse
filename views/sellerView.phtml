@@ -1,0 +1,11 @@
+<p>Chiffre d'affaire par produits du mois en cours</p>
+<ul>
+    <?php forEach($monthSales as $product) { ?>
+        <li><?= $product['name'] . " " ?><span><?= $product['total_price'] ?> €</span></li>
+  <?php  } ?>
+</ul>
+
+<p>Chiffre d'affaire par produits de l'année en cours</p>
+<ul>
+    <li><span></span></li>
+</ul>

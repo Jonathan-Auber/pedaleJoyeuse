@@ -12,18 +12,36 @@ class UsersController extends Controller
 
     public function index()
     {
-        // Si non connecté
-        $indexTitle = "Espace de connexion";
-        Render::render("index", compact("indexTitle"));
-        // Si connecté
+        if (isset($_SESSION['id']) && $_SESSION['status'] === "boss") {
+            $pageTitle = "Admin";
+            Render::render("adminView", compact("pageTitle"));
+        } elseif (isset($_SESSION['id']) && $_SESSION['status'] === "seller") {
+            // En cours
+            $this->sellerView();
+        } else {
+            $this->adminView();
+        }
     }
 
+    public function sellerView()
+    {
+        $monthSales = $this->model->salesByMonth($_SESSION['id']);
+        $pageTitle = "Seller";
+        Render::render("sellerView", compact("pageTitle", "monthSales"));
+    }
+
+    public function adminView()
+    {
+        $indexTitle = "Espace de connexion";
+        Render::render("index", compact("indexTitle"));
+    }
     public function login()
     {
         $this->model->login();
         $indexTitle = "Vous êtes connecté";
-        Render::render("index", compact("indexTitle"));
+        header("Location: /pedaleJoyeuse");
     }
+
     public function logout()
     {
         $this->model->logout();
