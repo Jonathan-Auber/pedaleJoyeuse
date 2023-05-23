@@ -59,6 +59,19 @@ class CustomersRepository extends Model {
         }
     }
 
+    public function customerData(int $invoiceId) {
+        $query = $this->pdo->prepare(" SELECT c.firstname, c.lastname, c.address, c.additional_address,c.zip_code, c.city,c.email, c.phone_number, i.creation_date 
+        FROM customers c 
+        JOIN invoices i ON i.customer_id = c.id 
+        WHERE i.id = :invoiceId");
+        $query->execute([
+            'invoiceId' => $invoiceId
+        ]);
+        return $query->fetch();
+    }
+
+  
+
 }
 
 

@@ -20,6 +20,17 @@ class InvoiceRepository extends Model
         $this->customersTable = "customers";
     }
 
+    public function invoiceData(int $id){
+        $query = $this->pdo->prepare("SELECT *
+        FROM {$this->table}
+        WHERE customer_id = :invoiceId
+        ORDER BY creation_date DESC");
+        $query->execute([
+            'invoiceId' => $id
+        ]);
+
+        return $query->fetchAll();
+    }
     public function insertInvoice(int $id)
     {
         $query = $this->pdo->prepare("INSERT INTO {$this->table} 
@@ -34,7 +45,31 @@ class InvoiceRepository extends Model
         return $invoiceId;
     }
 
-    public function updateInvoice($invoiceId)
+    public function updateInvoice($invoiceId, $totalInvoice, $totalWithVat)
+    {
+        $query = $this->pdo->prepare("UPDATE {$this->table} 
+            SET amount_et = :excluded_tax, amount_it = :included_tax
+            WHERE id = :invoiceId");
+        $query->execute([
+            'invoiceId' => $invoiceId,
+            'excluded_tax' => $totalInvoice,
+            'included_tax' => $totalWithVat
+        ]);
+    }
+
+    public function postDataProcessing()
+    {
+        $result = [];
+        for ($i = 1; $i <= count($_POST) / 2; $i++) {
+            $result[] = [
+                'productId' => $_POST["product_$i"],
+                'numberOfProducts' => $_POST["numberOfProducts_$i"]
+            ];
+        }
+        return $result;
+    }
+
+    public function invoiceLinesData($invoiceId)
     {
         $queryData = $this->pdo->prepare("SELECT p.name, p.price_ht, l.quantity, v.rate
         FROM products p 
@@ -56,53 +91,19 @@ class InvoiceRepository extends Model
                 'quantity' => $line['quantity'],
                 'unit_price' => $line['price_ht'],
                 'total_price' => $line['quantity'] * $line['price_ht'],
-                // 'line_vat' => (($line['quantity'] * $line['price_ht']) * $line['rate']) / 100
             ];
             $totalInvoice += intval($line['quantity'] * $line['price_ht']);
             $totalInvoiceVat += intval((($line['quantity'] * $line['price_ht']) * $line['rate']) / 100);
         }
 
         $totalWithVat = intval($totalInvoice) + intval($totalInvoiceVat);
-
-        // Update
-        $query = $this->pdo->prepare("UPDATE {$this->table} 
-            SET amount_et = :excluded_tax, amount_it = :included_tax
-            WHERE id = :invoiceId");
-        $query->execute([
-            'invoiceId' => $invoiceId,
-            'excluded_tax' => $totalInvoice,
-            'included_tax' => $totalWithVat
-        ]);
-
         return compact('invoiceLines', 'totalInvoice', 'totalInvoiceVat', 'totalWithVat');
-    }
-
-    public function customerData(int $invoiceId) {
-        $query = $this->pdo->prepare(" SELECT c.firstname, c.lastname, c.address, c.additional_address,c.zip_code, c.city,c.email, c.phone_number, i.creation_date 
-        FROM customers c 
-        JOIN invoices i ON i.customer_id = c.id 
-        WHERE i.id = :invoiceId");
-        $query->execute([
-            'invoiceId' => $invoiceId
-        ]);
-        return $query->fetch();
-    }
-
-    public function postDataProcessing()
-    {
-        $result = [];
-        for ($i = 1; $i <= count($_POST) / 2; $i++) {
-            $result[] = [
-                'productId' => $_POST["product_$i"],
-                'numberOfProducts' => $_POST["numberOfProducts_$i"]
-            ];
-        }
-        return $result;
     }
 
     public function insertInvoiceLines(array $results, int $invoiceId)
     {
-        $query = $this->pdo->prepare("INSERT INTO {$this->invoiceLinesTable} SET invoice_id = :invoiceId, product_id = :productId, quantity = :quantity");
+        $query = $this->pdo->prepare("INSERT INTO {$this->invoiceLinesTable} 
+        SET invoice_id = :invoiceId, product_id = :productId, quantity = :quantity");
         foreach ($results as $line) {
             $query->execute([
                 'invoiceId' => $invoiceId,
@@ -115,6 +116,8 @@ class InvoiceRepository extends Model
 
     public function updateStock($productID)
     {
-        $query = $this->pdo->prepare("SELECT quantity FROM products WHERE id = :id");
+        $query = $this->pdo->prepare("SELECT quantity 
+        FROM products 
+        WHERE id = :id");
     }
 }

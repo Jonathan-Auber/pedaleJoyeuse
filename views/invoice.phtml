@@ -60,15 +60,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($invoiceLines as $line) { ?>
+                            <?php 
+                            $i = 1;
+                            foreach ($invoiceLines as $line) { ?>
                                 <tr>
-                                    <th scope="row">#</th>
+                                    <th scope="row"><?= $i ?></th>
                                     <td><?= $line['name'] ?></td>
                                     <td><?= $line['quantity'] ?></td>
                                     <td><?= $line['unit_price'] ?>€</td>
                                     <td><?= $line['total_price'] ?>€</td>
                                 </tr>
-                            <?php } ?>
+                            <?php $i++; } ?>
                         </tbody>
 
                     </table>

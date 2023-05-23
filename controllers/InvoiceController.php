@@ -37,15 +37,31 @@ class InvoiceController extends Controller
         Render::render("newInvoice", compact("pageTitle", "id"));
     }
 
-    public function insertInvoice(int $id)
+    public function insertInvoice(?int $id = null, ?int $invoiceId = null)
     {
-        $results = $this->model->postDataProcessing($_POST);
-        $invoiceId = $this->model->insertInvoice($id);
-        $this->model->insertInvoiceLines($results, $invoiceId);
-        $invoiceData = $this->model->updateInvoice($invoiceId);
-        extract($invoiceData);
-        $customerData = $this->model->customerData($invoiceId);
+
+        if ($id) {
+            $results = $this->model->postDataProcessing($_POST);
+            $invoiceId = $this->model->insertInvoice($id);
+            $this->model->insertInvoiceLines($results, $invoiceId);
+            $invoiceLinesData = $this->model->invoiceLinesData($invoiceId);
+            extract($invoiceLinesData);
+            $this->model->updateInvoice($invoiceId, $totalInvoice, $totalWithVat);
+            $customerData = $this->customer->customerData($invoiceId);
+            $pageTitle = "Facture";
+            Render::render("invoice", compact("pageTitle", "invoiceId", "invoiceLines", "totalInvoice", "totalInvoiceVat", "totalWithVat", "customerData"));
+        } else {
+            throw new Exception("Erreur 404");
+        }
+    }
+
+    public function displayInvoice(int $id)
+    {
+        $invoiceId = intval($id);
+        $invoiceLinesData = $this->model->invoiceLinesData($invoiceId);
+        extract($invoiceLinesData);
+        $customerData = $this->customer->customerData($invoiceId);
         $pageTitle = "Facture";
-        Render::render("invoice", compact("pageTitle", "results", "invoiceId", "invoiceLines", "totalInvoice", "totalInvoiceVat", "totalWithVat", "customerData"));
+        Render::render("invoice", compact("pageTitle", "invoiceId", "invoiceLines", "totalInvoice", "totalInvoiceVat", "totalWithVat", "customerData"));
     }
 }

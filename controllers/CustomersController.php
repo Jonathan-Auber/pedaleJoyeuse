@@ -4,6 +4,7 @@ namespace controllers;
 
 use Exception;
 use models\CustomersRepository;
+use models\InvoiceRepository;
 use models\UsersRepository;
 use utils\Render;
 
@@ -11,11 +12,13 @@ class CustomersController extends Controller
 {
     protected $modelName = CustomersRepository::class;
     protected $user;
+    protected $invoice;
 
     public function __construct()
     {
         parent::__construct();
         $this->user = new UsersRepository();
+        $this->invoice = new InvoiceRepository();
     }
 
     public function displayCustomers()
@@ -52,5 +55,13 @@ class CustomersController extends Controller
             $pageTitle = "Ajout client";
             Render::render("addCustomer", compact("pageTitle"));
         }
+    }
+
+    public function invoiceByCustomer(int $id) {
+        $this->user->isConnected();
+        $customer = $this->model->find($id);
+        $invoiceData = $this->invoice->invoiceData($id);
+        $pageTitle = "Liste des factures client";
+        Render::render("invoiceByCustomer", compact("pageTitle", "customer", "invoiceData"));
     }
 }

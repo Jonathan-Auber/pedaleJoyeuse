@@ -12,6 +12,7 @@
                 <th scope="col">Numéro</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -27,7 +28,8 @@
                     <td><?= $customer['zip_code'] ?></td>
                     <td><?= $customer['email'] ?></td>
                     <td><?= $customer['phone_number'] ?></td>
-                    <td><a class="link-dark" href="/pedaleJoyeuse/Invoice/createInvoice/<?= $customer['id'] ?>"><i class="fa-solid fa-file-invoice-dollar fa-xl"></i></a></td>
+                    <td><a class="link-dark" href="/pedaleJoyeuse/Invoice/createInvoice/<?= $customer['id'] ?>"><i class="fa-solid fa-file-circle-plus fa-xl"></i></a></td>
+                    <td><a class="link-dark" href="/pedaleJoyeuse/Customers/invoiceByCustomer/<?= $customer['id'] ?>"><i class="fa-solid fa-file-invoice-dollar fa-xl"></i></a></td>
                     <td class="text-end"><a href="/pedaleJoyeuse/Customers/addCustomer/<?= $customer['id'] ?>" type="button" class="btn btn-primary w-100">Modifier</button></td>
                 </tr>
             <?php endforeach; ?>
