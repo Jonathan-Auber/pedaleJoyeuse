@@ -16,7 +16,7 @@ class CustomersRepository extends Model {
                 }
             }
 
-            $query = $this->pdo->prepare("INSERT INTO customers SET firstname = :firstName, lastname = :lastName, address = :address, additional_address = :additionalAddress, zip_code = :zipCode, city = :city, email = :email, phone_number = :phoneNumber");
+            $query = $this->pdo->prepare("INSERT INTO {$this->table} SET firstname = :firstName, lastname = :lastName, address = :address, additional_address = :additionalAddress, zip_code = :zipCode, city = :city, email = :email, phone_number = :phoneNumber");
             $query->execute([
                 'lastName' => $data[0],
                 'firstName' => $data[1],
