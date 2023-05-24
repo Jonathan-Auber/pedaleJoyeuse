@@ -57,7 +57,8 @@ class CustomersController extends Controller
         }
     }
 
-    public function invoiceByCustomer(int $id) {
+    public function invoiceByCustomer(int $id)
+    {
         $this->user->isConnected();
         $customer = $this->model->find($id);
         $invoiceData = $this->invoice->invoiceData($id);

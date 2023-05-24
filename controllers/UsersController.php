@@ -13,28 +13,68 @@ class UsersController extends Controller
     public function index()
     {
         if (isset($_SESSION['id']) && $_SESSION['status'] === "boss") {
-            $pageTitle = "Admin";
-            Render::render("adminView", compact("pageTitle"));
+            $this->adminView();
         } elseif (isset($_SESSION['id']) && $_SESSION['status'] === "seller") {
-            // En cours
             $this->sellerView();
         } else {
-            $this->adminView();
+            $pageTitle = "Login";
+            $indexTitle = "Espace de connexion";
+            Render::render("index", compact("pageTitle", "indexTitle"));
         }
     }
 
     public function sellerView()
     {
-        $monthSales = $this->model->salesByMonth($_SESSION['id']);
+        $salesByMonth = $this->model->salesBy("MONTH", "AND i.user_id = ?", $_SESSION['id']);
+        extract($salesByMonth);
+        $monthSales = $period;
+        $totalByMonth = $totalByPeriod;
+
+        $salesByYear = $this->model->salesBy("YEAR", "AND i.user_id = ?", $_SESSION['id']);
+        extract($salesByYear);
+        $yearSales = $period;
+        $totalByYear = $totalByPeriod;
+
         $pageTitle = "Seller";
-        Render::render("sellerView", compact("pageTitle", "monthSales"));
+        Render::render("sellerView", compact("pageTitle", "monthSales", "totalByMonth", "yearSales", "totalByYear"));
     }
 
     public function adminView()
     {
-        $indexTitle = "Espace de connexion";
-        Render::render("index", compact("indexTitle"));
+        $salesByDay = $this->model->salesBy("DAY");
+        extract($salesByDay);
+        $daySales = $period;
+        $totalByDay = $totalByPeriod;
+
+        $salesByYear = $this->model->salesBy("YEAR");
+        extract($salesByYear);
+        $yearSales = $period;
+        $totalByYear = $totalByPeriod;
+
+        $productByMonthWithVAT = $this->model->productByMonthWithVAT();
+        extract($productByMonthWithVAT);
+        $productData = $results;
+
+        $pageTitle = "Admin";
+        Render::render("adminView", compact("pageTitle", "daySales", "totalByDay", "yearSales", "totalByYear", "productData", "productsVAT", "totalVAT"));
     }
+
+    public function salesView()
+    {
+        $users = $this->model->findAll();
+        $pageTitle = "Ventes des vendeurs";
+        Render::render("salesView", compact("pageTitle", "users"));
+    }
+
+    public function salesBySeller(int $userId)
+    {
+        $user = $this->model->find($userId);
+        $results = $this->model->salesBySeller($userId);
+        extract($results);
+        $pageTitle = "Ventes des vendeurs";
+        Render::render("salesBySeller", compact("pageTitle", "user", "resultByMonth", "resultByYear"));
+    }
+
     public function login()
     {
         $this->model->login();
