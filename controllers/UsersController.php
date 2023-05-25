@@ -61,8 +61,7 @@ class UsersController extends Controller
 
     public function salesView()
     {
-        $this->model->isConnected();
-        $this->model->isAdmin();
+        $this->session->isAdmin();
         $users = $this->model->findAll();
         $pageTitle = "Ventes des vendeurs";
         Render::render("salesView", compact("pageTitle", "users"));
@@ -70,8 +69,7 @@ class UsersController extends Controller
 
     public function salesBySeller(int $userId)
     {
-        $this->model->isConnected();
-        $this->model->isAdmin();
+        $this->session->isAdmin();
         $user = $this->model->find($userId);
         $results = $this->model->salesBySeller($userId);
         extract($results);

@@ -3,12 +3,18 @@
 namespace models;
 
 use Exception;
-use IntlDateFormatter;
-use DateTime;
+use utils\Session;
 
 class UsersRepository extends Model
 {
     protected string $table = "users";
+    protected Session $session;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->session = new Session();
+    }
 
     public function login()
     {
@@ -18,8 +24,7 @@ class UsersRepository extends Model
             $result = $this->findAccount($username, $password);
 
             if ($username === $result['username'] && password_verify($password, $result['password'])) {
-                $_SESSION['id'] = $result['id'];
-                $_SESSION['status'] = $result['status'];
+                $this->session->setSession($result['id'], $result['status']);
                 return TRUE;
             } else {
                 throw new Exception("403 : Votre nom d'utilisateur ou votre mot de passe est erroné !");
@@ -36,28 +41,9 @@ class UsersRepository extends Model
         return $query->fetch();
     }
 
-    public function isConnected()
-    {
-        if (isset($_SESSION['id'])) {
-            return TRUE;
-        } else {
-            throw new Exception("401 : Vous n'êtes pas connecté !");
-        }
-    }
-
-    public function isAdmin()
-    {
-        if ($_SESSION['status'] === "boss") {
-            return TRUE;
-        } else {
-            throw new Exception("403 : Vous n'avez pas les droits pour accéder à cette page");
-        }
-    }
-
     public function logout(): void
     {
-        $_SESSION = [];
-        session_destroy();
+        $this->session->destroySession();
     }
 
     public function salesBy(string $period, ?string $and = "", ?int $userId = null)

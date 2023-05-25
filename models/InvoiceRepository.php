@@ -33,18 +33,24 @@ class InvoiceRepository extends Model
 
         return $query->fetchAll();
     }
-    public function insertInvoice(int $id)
-    {
+    public function insertInvoice(
+        int $id,
+        array $results,
+        ProductsRepository $productRepository
+    ) {
         // On vérifie que les champs sont bien remplis avant de débuter le processus pour ne pas insérer une facture inutilement.
-        $i = 1;
-        foreach ($_POST as $post) {
-            if (isset($post["product_$i"], $post["numberOfProduct_" . $i])) {
+        foreach ($results as $result) {
+            if (isset($result["productId"], $result["numberOfProducts"])) {
+                $product = $productRepository->find($result["productId"]);
+                if ($product['stock'] >= 0 && $product['stock'] > $result["numberOfProducts"]) {
+                } else {
+                    throw new Exception("401 : Il n'y à pas assez de stock pour " . $product['name']);
+                }
             } else {
                 throw new Exception("400 : L'un des champs n'est pas remplis");
             }
-            $i++;
         }
-        
+
         $query = $this->pdo->prepare("INSERT INTO {$this->table} 
         SET customer_id = :customer, user_id = :user, amount_et = :excluded_tax, amount_it = :included_tax");
         $query->execute([

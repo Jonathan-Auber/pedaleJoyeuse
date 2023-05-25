@@ -4,30 +4,22 @@ namespace controllers;
 
 use Exception;
 use models\ProductsRepository;
-use models\UsersRepository;
 use utils\Render;
 
 class ProductsController extends Controller
 {
     protected $modelName = \models\ProductsRepository::class;
-    protected $user;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->user = new \models\UsersRepository();
-    }
 
     public function stock()
     {
-        $this->user->isConnected();
+        $this->session->isConnected();
         $pageTitle = "Stock";
         $products = $this->model->findAll();
         Render::render("Stock", compact('pageTitle', 'products'));
     }
 
     public function formProduct(int $id) {
-        $this->user->isAdmin();
+        $this->session->isAdmin();
         $pageTitle = "Edition des stock";
         $product = $this->model->find($id);
         Render::render("formProducts", compact("pageTitle", "product"));
@@ -35,7 +27,7 @@ class ProductsController extends Controller
 
     public function updateProduct(int $id)
     {
-        $this->user->isAdmin();
+        $this->session->isAdmin();
         $this->model->updateProduct($id);
         $pageTitle = "Stock";
         $products = $this->model->findAll();

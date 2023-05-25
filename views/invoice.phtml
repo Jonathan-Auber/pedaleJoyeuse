@@ -18,14 +18,6 @@
             </div>
 
             <div class="container">
-                <!-- <div class="col-md-12">
-                    <div class="text-center">
-                        <p class="pt-0">Facture</p>
-                    </div>
-
-                </div> -->
-
-
                 <div class="row">
                     <div class="col-xl-8">
                         <ul class="list-unstyled">
@@ -38,12 +30,8 @@
                         </ul>
                     </div>
                     <div class="col-xl-4">
-                        <!-- <p class="text-muted">Invoice</p> -->
                         <ul class="list-unstyled">
-                            <!-- <li class="text-muted"><i class="fas fa-circle" style="color:#84B0CA ;"></i> <span class="fw-bold">ID:</span>#<?= $invoiceId ?></li> -->
                             <li class="text-muted"><i class="fas fa-circle" style="color:#84B0CA ;"></i> <span class="fw-bold">Date de création: </span><?= $customerData['creation_date'] ?></li>
-                            <!-- <li class="text-muted"><i class="fas fa-circle" style="color:#84B0CA ;"></i> <span class="me-1 fw-bold">Status:</span><span class="badge bg-warning text-black fw-bold">
-                                    Unpaid</span></li> -->
                         </ul>
                     </div>
                 </div>
@@ -60,7 +48,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php 
+                            <?php
                             $i = 1;
                             foreach ($invoiceLines as $line) { ?>
                                 <tr>
@@ -70,7 +58,8 @@
                                     <td><?= $line['unit_price'] ?>€</td>
                                     <td><?= $line['total_price'] ?>€</td>
                                 </tr>
-                            <?php $i++; } ?>
+                            <?php $i++;
+                            } ?>
                         </tbody>
 
                     </table>

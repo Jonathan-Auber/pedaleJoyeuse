@@ -10,7 +10,6 @@ class Routing
 {
     public function get()
     {
-        session_start();
         // On essaie le bloc de code qui suit
         try {
             // Si il y a une valeur pour controller dans l'url alors ..

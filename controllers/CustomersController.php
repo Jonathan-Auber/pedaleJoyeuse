@@ -5,25 +5,22 @@ namespace controllers;
 use Exception;
 use models\CustomersRepository;
 use models\InvoiceRepository;
-use models\UsersRepository;
 use utils\Render;
 
 class CustomersController extends Controller
 {
     protected $modelName = CustomersRepository::class;
-    protected $user;
     protected $invoice;
 
     public function __construct()
     {
         parent::__construct();
-        $this->user = new UsersRepository();
         $this->invoice = new InvoiceRepository();
     }
 
     public function displayCustomers()
     {
-        $this->user->isConnected();
+        $this->session->isConnected();
         $customers = $this->model->findAll();
         $pageTitle = "Fichier client";
         Render::render("customers", compact("pageTitle", "customers"));
@@ -31,7 +28,7 @@ class CustomersController extends Controller
 
     public function addCustomer(?int $id = null)
     {
-        $this->user->isConnected();
+        $this->session->isConnected();
         if ($id) {
             $customer = $this->model->find($id);
             $pageTitle = "Editer un client";
@@ -44,7 +41,7 @@ class CustomersController extends Controller
 
     public function insertCustomer(?int $id = null)
     {
-        // $this->user->isConnected();
+        // $this->session->isConnected();
         if ($id) {
             $this->model->updateCustomer($id);
             $pageTitle = "Fichier client";
@@ -59,7 +56,7 @@ class CustomersController extends Controller
 
     public function invoiceByCustomer(int $id)
     {
-        $this->user->isConnected();
+        $this->session->isConnected();
         $customer = $this->model->find($id);
         $invoiceData = $this->invoice->invoiceData($id);
         $pageTitle = "Liste des factures client";
