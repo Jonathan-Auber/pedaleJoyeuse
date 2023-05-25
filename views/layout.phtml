@@ -24,17 +24,19 @@
           <li class="nav-item">
             <a class="nav-link" href="/pedaleJoyeuse/Products/stock">Stock Produits</a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="/pedaleJoyeuse/Users/logout" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Voir plus
-            </a>
-            <ul class="dropdown-menu">
-              <?php if ($_SESSION['status'] === "boss") { ?> <li><a class="dropdown-item" href="/pedaleJoyeuse/Users/salesView">Consulter les ventes</a></li> <?php } ?>
-              <li class="nav-item">
-                <a class="dropdown-item" href="/pedaleJoyeuse/Users/logout">Déconnexion</a>
-              </li>
-            </ul>
-          </li>
+          <?php if (isset($_SESSION['id'])) { ?>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="/pedaleJoyeuse/Users/logout" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Voir plus
+              </a>
+              <ul class="dropdown-menu">
+                <?php if (isset($_SESSION['status']) && $_SESSION['status'] === "boss") { ?> <li><a class="dropdown-item" href="/pedaleJoyeuse/Users/salesView">Consulter les ventes</a></li> <?php } ?>
+                <li class="nav-item">
+                  <a class="dropdown-item" href="/pedaleJoyeuse/Users/logout">Déconnexion</a>
+                </li>
+              </ul>
+            </li>
+          <?php } ?>
         </ul>
       </div>
     </div>

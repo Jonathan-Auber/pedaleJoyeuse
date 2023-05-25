@@ -82,14 +82,15 @@ class UsersController extends Controller
     public function login()
     {
         $this->model->login();
-        $indexTitle = "Vous êtes connecté";
         header("Location: /pedaleJoyeuse");
     }
 
     public function logout()
     {
         $this->model->logout();
-        $indexTitle = "Vous êtes bien déconnecté";
-        Render::render("index", compact("indexTitle"));
+        $pageTitle = "Déconnexion";
+        $errorCode = "200";
+        $errorDescription = "Vous êtes bien déconnecté";
+        Render::render("error", compact("errorCode", "errorDescription", "pageTitle"));
     }
 }

@@ -53,6 +53,7 @@ class InvoiceController extends Controller
 
     public function displayInvoice(int $id)
     {
+        $this->user->isConnected();
         $invoiceId = intval($id);
         $invoiceLinesData = $this->model->invoiceLinesData($invoiceId);
         extract($invoiceLinesData);

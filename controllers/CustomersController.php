@@ -44,7 +44,7 @@ class CustomersController extends Controller
 
     public function insertCustomer(?int $id = null)
     {
-        $this->user->isConnected();
+        // $this->user->isConnected();
         if ($id) {
             $this->model->updateCustomer($id);
             $pageTitle = "Fichier client";

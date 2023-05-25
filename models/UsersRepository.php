@@ -38,7 +38,7 @@ class UsersRepository extends Model
 
     public function isConnected()
     {
-        if (isset($_SESSION)) {
+        if (isset($_SESSION['id'])) {
             return TRUE;
         } else {
             throw new Exception("401 : Vous n'êtes pas connecté !");
