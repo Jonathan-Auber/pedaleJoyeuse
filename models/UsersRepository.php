@@ -22,7 +22,7 @@ class UsersRepository extends Model
                 $_SESSION['status'] = $result['status'];
                 return TRUE;
             } else {
-                throw new Exception("Votre nom d'utilisateur ou votre mot de passe est erroné !");
+                throw new Exception("403 : Votre nom d'utilisateur ou votre mot de passe est erroné !");
             }
         }
     }
@@ -41,7 +41,7 @@ class UsersRepository extends Model
         if (isset($_SESSION)) {
             return TRUE;
         } else {
-            throw new Exception("Vous n'êtes pas connecté !");
+            throw new Exception("401 : Vous n'êtes pas connecté !");
         }
     }
 
@@ -50,8 +50,7 @@ class UsersRepository extends Model
         if ($_SESSION['status'] === "boss") {
             return TRUE;
         } else {
-            // A voir
-            throw new Exception("Vous n'avez pas les droits pour accéder à cette page");
+            throw new Exception("403 : Vous n'avez pas les droits pour accéder à cette page");
         }
     }
 
@@ -60,8 +59,6 @@ class UsersRepository extends Model
         $_SESSION = [];
         session_destroy();
     }
-
-    // En cours
 
     public function salesBy(string $period, ?string $and = "", ?int $userId = null)
     {

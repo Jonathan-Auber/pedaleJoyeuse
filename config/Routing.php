@@ -27,13 +27,13 @@ class Routing
                     // Autoload
                     if (isset($newUrl[2])) {
                         $id = $newUrl[2];
-                        $controller->$methodName($id); // $controller->post(4);
+                        $controller->$methodName(intval($id)); // $controller->post(4);
                     } else {
                         $controller->$methodName(); // $controller->post();
                     }
                 } else {
                     // S'il manque un paramètre, la page n'existe pas, on renvois une erreur qui sera récupérée dans le bloc catch
-                    throw new Exception("Erreur 404");
+                    throw new Exception("404 : Cette page n'existe pas");
                 }
             } // S'il n'y a pas de valeur pour controller, alors on affiche la page d'accueil
             else {
@@ -44,11 +44,13 @@ class Routing
         catch (Exception $e) {
             // On récupére le message d'erreur pour le stocker dans $errorMessage
             $errorMessage = $e->getMessage();
+            // On divise le message pour récupérer le code erreur et la description à part
+            $parts = explode(': ', $errorMessage);
+            $errorCode = $parts[0];
+            $errorDescription = $parts[1];
+            $pageTitle = "Page d'erreur";
             // On affiche l'erreur sur la page d'erreur
-            // A FAIRE!!!!
-            // $page = 'views/error.phtml';
-            // require_once "views/layout.phtml";
-            Render::render("error", compact("errorMessage"));
+            Render::render("error", compact("errorCode", "errorDescription", "pageTitle"));
         }
     }
 }

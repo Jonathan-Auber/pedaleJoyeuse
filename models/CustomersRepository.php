@@ -28,7 +28,7 @@ class CustomersRepository extends Model {
                 'phoneNumber' => $data[7]
             ]);
         } else {
-            throw new Exception("Le remplissage des champs comporte une erreur !");
+            throw new Exception("400 : Le remplissage des champs comporte une erreur !");
         }
     }
 
@@ -55,7 +55,7 @@ class CustomersRepository extends Model {
                 'phoneNumber' => $data[7]
             ]);
         } else {
-            throw new Exception("Le remplissage des champs comporte une erreur !");
+            throw new Exception("400 : Le remplissage des champs comporte une erreur !");
         }
     }
 

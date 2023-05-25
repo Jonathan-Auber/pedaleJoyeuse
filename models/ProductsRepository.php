@@ -28,7 +28,7 @@ class ProductsRepository extends Model
                 'price_ht' => $data[4]
             ]);
         } else {
-            throw new Exception("Le remplissage des champs comporte une erreur !");
+            throw new Exception("400 : Le remplissage des champs comporte une erreur !");
         }
     }
     public function getStock(int $productId) 

@@ -48,13 +48,13 @@ class CustomersController extends Controller
         if ($id) {
             $this->model->updateCustomer($id);
             $pageTitle = "Fichier client";
-            $customers = $this->model->findAll();
-            Render::render("customers", compact("pageTitle", "customers"));
         } else {
             $this->model->insertCustomer();
-            $pageTitle = "Ajout client";
-            Render::render("addCustomer", compact("pageTitle"));
+            $pageTitle = "Fichier client";
         }
+        $customers = $this->model->findAll();
+        Render::render("customers", compact("pageTitle", "customers"));
+
     }
 
     public function invoiceByCustomer(int $id)
