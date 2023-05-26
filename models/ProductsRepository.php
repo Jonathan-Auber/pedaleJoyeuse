@@ -8,6 +8,10 @@ class ProductsRepository extends Model
 {
     protected string $table = "products";
 
+    public function __construct(){
+        parent::__construct();
+    }
+
     public function updateProduct(int $id)
     {
         if (!empty($_POST)) {

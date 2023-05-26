@@ -3,11 +3,18 @@
 namespace controllers;
 
 use Exception;
+use models\ReportingRepository;
 use utils\Render;
 
 class UsersController extends Controller
 {
     protected $modelName = \models\UsersRepository::class;
+    protected $reporting;
+
+    public function __construct(){
+        parent::__construct();
+        $this->reporting = new ReportingRepository();
+    }
 
 
     public function index()
@@ -25,12 +32,12 @@ class UsersController extends Controller
 
     public function sellerView()
     {
-        $salesByMonth = $this->model->salesBy("MONTH", "AND i.user_id = ?", $_SESSION['id']);
+        $salesByMonth = $this->reporting->salesBy("MONTH", "AND i.user_id = ?", $_SESSION['id']);
         extract($salesByMonth);
         $monthSales = $period;
         $totalByMonth = $totalByPeriod;
 
-        $salesByYear = $this->model->salesBy("YEAR", "AND i.user_id = ?", $_SESSION['id']);
+        $salesByYear = $this->reporting->salesBy("YEAR", "AND i.user_id = ?", $_SESSION['id']);
         extract($salesByYear);
         $yearSales = $period;
         $totalByYear = $totalByPeriod;
@@ -41,17 +48,17 @@ class UsersController extends Controller
 
     public function adminView()
     {
-        $salesByDay = $this->model->salesBy("DAY");
+        $salesByDay = $this->reporting->salesBy("DAY");
         extract($salesByDay);
         $daySales = $period;
         $totalByDay = $totalByPeriod;
 
-        $salesByYear = $this->model->salesBy("YEAR");
+        $salesByYear = $this->reporting->salesBy("YEAR");
         extract($salesByYear);
         $yearSales = $period;
         $totalByYear = $totalByPeriod;
 
-        $productByMonthWithVAT = $this->model->productByMonthWithVAT();
+        $productByMonthWithVAT = $this->reporting->productByMonthWithVAT();
         extract($productByMonthWithVAT);
         $productData = $results;
 
@@ -71,7 +78,7 @@ class UsersController extends Controller
     {
         $this->session->isAdmin();
         $user = $this->model->find($userId);
-        $results = $this->model->salesBySeller($userId);
+        $results = $this->reporting->salesBySeller($userId);
         extract($results);
         $pageTitle = "Ventes des vendeurs";
         Render::render("salesBySeller", compact("pageTitle", "user", "resultByMonth", "resultByYear"));
