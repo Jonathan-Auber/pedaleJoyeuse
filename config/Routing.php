@@ -23,7 +23,6 @@ class Routing
                 if (isset($newUrl[1])) {
                     $methodName = strtolower($newUrl[1]); // post
                     $controller = new $controllerName(); // new UsersController.php
-                    // Autoload
                     if (isset($newUrl[2])) {
                         $id = $newUrl[2];
                         $controller->$methodName(intval($id)); // $controller->post(4);
