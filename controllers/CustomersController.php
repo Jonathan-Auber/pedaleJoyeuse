@@ -48,7 +48,7 @@ class CustomersController extends Controller
             $pageTitle = "Fichier client";
         }
         $customers = $this->model->findAll();
-        header("Location:/pedaleJoyeuse/Customers/displayCustomers");
+        header("Location:/pedale-joyeuse/Customers/displayCustomers");
     }
 
     public function invoiceByCustomer(int $customerId)

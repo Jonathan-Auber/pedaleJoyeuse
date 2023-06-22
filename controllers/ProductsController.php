@@ -13,7 +13,7 @@ class ProductsController extends Controller
         $this->session->isConnected();
         $pageTitle = "Stock";
         $products = $this->model->findAll();
-        Render::render("Stock", compact('pageTitle', 'products'));
+        Render::render("stock", compact('pageTitle', 'products'));
     }
 
     public function formProduct(int $productId)
@@ -30,6 +30,6 @@ class ProductsController extends Controller
         $this->model->updateProduct($productId);
         $pageTitle = "Stock";
         $products = $this->model->findAll();
-        header("Location: /pedaleJoyeuse/Products/stock");
+        header("Location: /pedale-joyeuse/Products/stock");
     }
 }

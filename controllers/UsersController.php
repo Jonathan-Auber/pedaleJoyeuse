@@ -87,7 +87,7 @@ class UsersController extends Controller
     public function login()
     {
         $this->model->login();
-        header("Location: /pedaleJoyeuse");
+        header("Location: /pedale-joyeuse");
     }
 
     public function logout()
