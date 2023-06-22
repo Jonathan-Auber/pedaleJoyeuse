@@ -2,7 +2,6 @@
 
 namespace controllers;
 
-use Exception;
 use models\CustomersRepository;
 use models\InvoiceRepository;
 use models\ProductsRepository;
@@ -34,11 +33,11 @@ class InvoiceController extends Controller
         Render::render("newInvoice", compact("pageTitle", "id"));
     }
 
-    public function insertInvoice(int $id)
+    public function insertInvoice(int $customerId)
     {
         $results = $this->model->postDataProcessing($_POST);
         $productRepository = $this->product;
-        $invoiceId = $this->model->insertInvoice($id, $results, $productRepository);
+        $invoiceId = $this->model->insertInvoice($customerId, $results, $productRepository);
         $this->model->insertInvoiceLines($results, $invoiceId, $productRepository);
         $invoiceLinesData = $this->model->invoiceLinesData($invoiceId);
         extract($invoiceLinesData);

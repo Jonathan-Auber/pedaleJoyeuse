@@ -8,11 +8,19 @@ class ProductsRepository extends Model
 {
     protected string $table = "products";
 
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    public function updateProduct(int $id)
+    /**
+     * Updates a product with the specified ID.
+     *
+     * @param int $productId The ID of the product to update.
+     * @throws Exception if there is an error in filling the fields.
+     * @return void
+     */
+    public function updateProduct(int $productId)
     {
         if (!empty($_POST)) {
             $data = [];
@@ -22,9 +30,11 @@ class ProductsRepository extends Model
                 }
             }
 
-            $query = $this->pdo->prepare("UPDATE products SET name = :name, reference = :reference, stock = :stock, stock_alert = :stock_alert, price_ht = :price_ht WHERE id = :id");
+            $query = $this->pdo->prepare("UPDATE products 
+            SET name = :name, reference = :reference, stock = :stock, stock_alert = :stock_alert, price_ht = :price_ht 
+            WHERE id = :productId");
             $query->execute([
-                'id' => $id,
+                'productId' => $productId,
                 'name' => $data[0],
                 'reference' => $data[1],
                 'stock' => $data[2],
@@ -35,7 +45,14 @@ class ProductsRepository extends Model
             throw new Exception("400 : Le remplissage des champs comporte une erreur !");
         }
     }
-    public function getStock(int $productId) 
+
+    /** 
+     * Retrieves the stock of a product based on its ID.
+     *
+     * @param int $productId The ID of the selected product.
+     * @return mixed The stock value of the product.
+     */
+    public function getStock(int $productId)
     {
         $query = $this->pdo->prepare("SELECT stock 
         FROM products 
@@ -46,6 +63,13 @@ class ProductsRepository extends Model
         return $query->fetch();
     }
 
+    /**
+     * Updates the stock of a product.
+     *
+     * @param int $productId The ID of the product.
+     * @param int $numberOfProduct The number of products to update the stock by.
+     * @return void
+     */
     public function updateStock(int $productId, int $numberOfProduct)
     {
         $stock = $this->getStock($productId);
@@ -53,9 +77,9 @@ class ProductsRepository extends Model
         $query = $this->pdo->prepare("UPDATE products
             SET stock = :newStock
             WHERE id = :productId");
-            $query->execute([
-                'productId' => $productId,
-                'newStock' => $newStock
-            ]);
+        $query->execute([
+            'productId' => $productId,
+            'newStock' => $newStock
+        ]);
     }
 }

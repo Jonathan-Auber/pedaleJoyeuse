@@ -2,8 +2,6 @@
 
 namespace controllers;
 
-use Exception;
-use models\ProductsRepository;
 use utils\Render;
 
 class ProductsController extends Controller
@@ -18,19 +16,20 @@ class ProductsController extends Controller
         Render::render("Stock", compact('pageTitle', 'products'));
     }
 
-    public function formProduct(int $id) {
+    public function formProduct(int $productId)
+    {
         $this->session->isAdmin();
         $pageTitle = "Edition des stock";
-        $product = $this->model->find($id);
+        $product = $this->model->find($productId);
         Render::render("formProducts", compact("pageTitle", "product"));
     }
 
-    public function updateProduct(int $id)
+    public function updateProduct(int $productId)
     {
         $this->session->isAdmin();
-        $this->model->updateProduct($id);
+        $this->model->updateProduct($productId);
         $pageTitle = "Stock";
         $products = $this->model->findAll();
-        Render::render("stock", compact("pageTitle", "products"));
+        header("Location: /pedaleJoyeuse/Products/stock");
     }
 }

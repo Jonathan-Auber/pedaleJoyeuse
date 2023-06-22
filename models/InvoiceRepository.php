@@ -4,7 +4,6 @@ namespace models;
 
 use models\ProductsRepository;
 use Exception;
-use LengthException;
 
 class InvoiceRepository extends Model
 {
@@ -21,24 +20,39 @@ class InvoiceRepository extends Model
         $this->customersTable = "customers";
     }
 
-    public function invoiceData(int $id)
+    /**
+     * Retrieves invoice data for the specified customer ID.
+     *
+     * @param int $customerId The ID of the customer.
+     * @return array An array containing the invoice data.
+     */
+    public function invoiceData(int $customerId)
     {
         $query = $this->pdo->prepare("SELECT *
         FROM {$this->table}
-        WHERE customer_id = :invoiceId
+        WHERE customer_id = :customerId
         ORDER BY creation_date DESC");
         $query->execute([
-            'invoiceId' => $id
+            'customerId' => $customerId
         ]);
 
         return $query->fetchAll();
     }
+
+    /**
+     * Inserts a new invoice into the database.
+     *
+     * @param int $customerId The ID of the customer.
+     * @param array $results An array of invoice line items.
+     * @param ProductsRepository $productRepository The instance of ProductsRepository.
+     * @return int The ID of the inserted invoice.
+     * @throws Exception if there is an error in filling the fields or insufficient stock.
+     */
     public function insertInvoice(
-        int $id,
+        int $customerId,
         array $results,
         ProductsRepository $productRepository
     ) {
-        // On vérifie que les champs sont bien remplis avant de débuter le processus pour ne pas insérer une facture inutilement.
         foreach ($results as $result) {
             if (isset($result["productId"], $result["numberOfProducts"])) {
                 $product = $productRepository->find($result["productId"]);
@@ -54,7 +68,7 @@ class InvoiceRepository extends Model
         $query = $this->pdo->prepare("INSERT INTO {$this->table} 
         SET customer_id = :customer, user_id = :user, amount_et = :excluded_tax, amount_it = :included_tax");
         $query->execute([
-            'customer' => $id,
+            'customer' => $customerId,
             'user' => $_SESSION['id'],
             'excluded_tax' => 0,
             'included_tax' => 0
@@ -63,6 +77,14 @@ class InvoiceRepository extends Model
         return $invoiceId;
     }
 
+    /**
+     * Updates an invoice with the specified ID by setting the excluded tax amount and included tax amount.
+     *
+     * @param int $invoiceId The ID of the invoice to update.
+     * @param float $totalInvoice The total amount of the invoice excluding tax.
+     * @param float $totalWithVat The total amount of the invoice including tax.
+     * @return void
+     */
     public function updateInvoice($invoiceId, $totalInvoice, $totalWithVat)
     {
         $query = $this->pdo->prepare("UPDATE {$this->table} 
@@ -87,6 +109,12 @@ class InvoiceRepository extends Model
         return $result;
     }
 
+    /**
+     * Retrieves invoice line data for the specified invoice ID.
+     *
+     * @param int $invoiceId The ID of the invoice.
+     * @return array An array containing the invoice line data.
+     */
     public function invoiceLinesData($invoiceId)
     {
         $queryData = $this->pdo->prepare("SELECT p.name, p.price_ht, l.quantity, v.rate
@@ -118,6 +146,14 @@ class InvoiceRepository extends Model
         return compact('invoiceLines', 'totalInvoice', 'totalInvoiceVat', 'totalWithVat');
     }
 
+    /**
+     * Inserts invoice line items into the database.
+     *
+     * @param array $results An array of invoice line items.
+     * @param int $invoiceId The ID of the invoice.
+     * @param ProductsRepository $productRepository The instance of ProductsRepository.
+     * @return void
+     */
     public function insertInvoiceLines(array $results, int $invoiceId, ProductsRepository $productRepository)
     {
         $query = $this->pdo->prepare("INSERT INTO {$this->invoiceLinesTable} 

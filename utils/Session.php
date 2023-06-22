@@ -8,15 +8,15 @@ class Session
 {
     public function __construct()
     {
-        if(!isset($_SESSION)) {
+        if (!isset($_SESSION)) {
             session_start();
         }
     }
 
-    public function setSession(int $id, string $status):void
+    public function setSession(int $userId, string $userStatus): void
     {
-        $_SESSION['id'] = $id;
-        $_SESSION['status'] = $status;
+        $_SESSION['id'] = $userId;
+        $_SESSION['status'] = $userStatus;
     }
 
     public function isConnected()
@@ -37,7 +37,7 @@ class Session
         }
     }
 
-    public function destroySession():void
+    public function destroySession(): void
     {
         session_unset();
         session_destroy();

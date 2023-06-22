@@ -2,7 +2,6 @@
 
 namespace controllers;
 
-use Exception;
 use models\ReportingRepository;
 use utils\Render;
 
@@ -11,7 +10,8 @@ class UsersController extends Controller
     protected $modelName = \models\UsersRepository::class;
     protected $reporting;
 
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
         $this->reporting = new ReportingRepository();
     }
@@ -19,9 +19,9 @@ class UsersController extends Controller
 
     public function index()
     {
-        if (isset($_SESSION['id']) && $_SESSION['status'] === "boss") {
+        if (isset($_SESSION['id'], $_SESSION["status"]) && $_SESSION['status'] === "boss") {
             $this->adminView();
-        } elseif (isset($_SESSION['id']) && $_SESSION['status'] === "seller") {
+        } elseif (isset($_SESSION['id'], $_SESSION["status"]) && $_SESSION['status'] === "seller") {
             $this->sellerView();
         } else {
             $pageTitle = "Login";

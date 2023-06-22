@@ -14,13 +14,21 @@ class ReportingRepository extends Model
         $this->function = new MyFunctions();
     }
 
-    public function salesBy(string $period, ?string $and = "", ?int $userId = null)
+    /**
+     * Retrieves sales by period and optionally by user.
+     *
+     * @param string $period The period (SQL function) to group the sales by (e.g., "MONTH" or "YEAR").
+     * @param string|null $andUserId Optional additional clause for the SQL query.
+     * @param int|null $userId The optional user ID to filter the sales by user.
+     * @return array An associative array containing sales by product for the specified period and the total sales.
+     */
+    public function salesBy(string $period, ?string $andUserId = "", ?int $userId = null)
     {
         $query = $this->pdo->prepare("SELECT p.name, SUM(l.quantity * p.price_ht) AS total_price
         FROM invoices i
         JOIN invoice_lines l ON i.id = l.invoice_id
         JOIN products p ON p.id = l.product_id
-        WHERE $period(i.creation_date) = $period(NOW()) $and
+        WHERE $period(i.creation_date) = $period(NOW()) $andUserId
         GROUP BY l.product_id");
 
         if ($userId) {
@@ -40,6 +48,11 @@ class ReportingRepository extends Model
         return compact("period", "totalByPeriod");
     }
 
+    /**
+     * Retrieves products by month with VAT and their corresponding total VAT amount.
+     *
+     * @return array An associative array containing the products sold by month, their VAT amounts, and the total VAT amount.
+     */
     public function productByMonthWithVAT()
     {
         $query = $this->pdo->prepare("SELECT p.name, v.rate,
@@ -69,7 +82,11 @@ class ReportingRepository extends Model
         return compact("results", "productsVAT", "totalVAT");
     }
 
-
+    /**
+     * Retrieves products by month with VAT and calculates the total VAT amount.
+     *
+     * @return array An associative array containing the products sold by month, their VAT rates, and the total VAT amount.
+     */
     public function salesBySeller(int $userId)
     {
         $query = $this->pdo->prepare("SELECT u.username, 
@@ -94,5 +111,3 @@ class ReportingRepository extends Model
         return compact("resultByMonth", "resultByYear");
     }
 }
-
-

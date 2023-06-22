@@ -2,7 +2,6 @@
 
 namespace controllers;
 
-use Exception;
 use models\CustomersRepository;
 use models\InvoiceRepository;
 use utils\Render;
@@ -26,39 +25,37 @@ class CustomersController extends Controller
         Render::render("customers", compact("pageTitle", "customers"));
     }
 
-    public function addCustomer(?int $id = null)
+    public function customerManagement(?int $id = null)
     {
         $this->session->isConnected();
         if ($id) {
             $customer = $this->model->find($id);
             $pageTitle = "Editer un client";
-            Render::render("addCustomer", compact("pageTitle", "customer"));
+            Render::render("customerManagement", compact("pageTitle", "customer"));
         } else {
             $pageTitle = "Ajout client";
-            Render::render("addCustomer", compact("pageTitle"));
+            Render::render("customerManagement", compact("pageTitle"));
         }
     }
 
-    public function insertCustomer(?int $id = null)
+    public function createOrUpadateCustomer(?int $customerId = null)
     {
-        // $this->session->isConnected();
-        if ($id) {
-            $this->model->updateCustomer($id);
+        if ($customerId) {
+            $this->model->updateCustomer($customerId);
             $pageTitle = "Fichier client";
         } else {
             $this->model->insertCustomer();
             $pageTitle = "Fichier client";
         }
         $customers = $this->model->findAll();
-        Render::render("customers", compact("pageTitle", "customers"));
-
+        header("Location:/pedaleJoyeuse/Customers/displayCustomers");
     }
 
-    public function invoiceByCustomer(int $id)
+    public function invoiceByCustomer(int $customerId)
     {
         $this->session->isConnected();
-        $customer = $this->model->find($id);
-        $invoiceData = $this->invoice->invoiceData($id);
+        $customer = $this->model->find($customerId);
+        $invoiceData = $this->invoice->invoiceData($customerId);
         $pageTitle = "Liste des factures client";
         Render::render("invoiceByCustomer", compact("pageTitle", "customer", "invoiceData"));
     }
