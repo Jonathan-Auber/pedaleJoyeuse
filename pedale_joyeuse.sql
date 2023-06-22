@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:8889
--- Généré le : ven. 26 mai 2023 à 07:58
+-- Généré le : jeu. 22 juin 2023 à 10:43
 -- Version du serveur : 5.7.39
 -- Version de PHP : 8.2.0
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `ecf_backend`
+-- Base de données : `pedale_joyeuse`
 --
 
 -- --------------------------------------------------------
@@ -44,8 +44,8 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `firstname`, `lastname`, `address`, `additional_address`, `zip_code`, `city`, `email`, `phone_number`) VALUES
-(1, 'John', 'Admin', 'Rue Sainte', '', '13000', 'Marseille', 'john@admin.com', ''),
-(2, 'Jojo', 'Seller', 'Vieux port', 'Joliette', '13700', 'Marseille', 'Jojo@seller.fr', '0645242638'),
+(1, 'John', 'Doe', 'Rue Sainte', '', '13000', 'Marseille', 'john@doe.com', ''),
+(2, 'Mister', 'T', 'Vieux port', 'Joliette', '13700', 'Marseille', 'mister@t.fr', '0645242638'),
 (7, 'Zaid', 'Chakir', '1 rue de l&#039;égo', '', '13000', 'Zaidï', 'Zaid@ego.com', '');
 
 -- --------------------------------------------------------
@@ -82,7 +82,10 @@ INSERT INTO `invoices` (`id`, `customer_id`, `user_id`, `creation_date`, `amount
 (104, 7, 1, '2023-05-25 15:57:32', 80, 88),
 (119, 7, 1, '2023-05-25 16:28:34', 110, 132),
 (120, 7, 1, '2023-05-25 16:29:41', 354, 424),
-(121, 7, 1, '2023-05-26 08:32:21', 280, 336);
+(121, 7, 1, '2023-05-26 08:32:21', 280, 336),
+(122, 7, 1, '2023-06-22 08:55:23', 221, 257),
+(123, 2, 2, '2023-06-22 08:58:41', 418, 501),
+(124, 1, 2, '2023-06-22 11:09:21', 80, 88);
 
 -- --------------------------------------------------------
 
@@ -125,7 +128,13 @@ INSERT INTO `invoice_lines` (`invoice_id`, `product_id`, `quantity`) VALUES
 (104, 2, 2),
 (119, 1, 2),
 (120, 4, 10),
-(121, 5, 10);
+(121, 5, 10),
+(122, 2, 2),
+(122, 4, 4),
+(123, 1, 2),
+(123, 3, 3),
+(123, 5, 4),
+(124, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -148,11 +157,11 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `reference`, `stock`, `stock_alert`, `price_ht`, `vat_id`) VALUES
-(1, 'Doussofess', 'SD', 17, 15, 55.00, 1),
-(2, 'Duracuir', 'SC', 7, 10, 40.00, 2),
-(3, 'Voiclair', 'VC', 20, 15, 65.50, 1),
-(4, 'Korn2vach', 'GT', 5, 12, 35.40, 1),
-(5, 'MacGyver', 'MG', 11, 10, 28.00, 1);
+(1, 'Doussofess', 'SD', 26, 15, 55.00, 1),
+(2, 'Duracuir', 'SC', 23, 10, 40.00, 2),
+(3, 'Voiclair', 'VC', 17, 15, 65.50, 1),
+(4, 'Korn2vach', 'GT', 12, 12, 35.40, 1),
+(5, 'MacGyver', 'MG', 15, 12, 28.00, 1);
 
 -- --------------------------------------------------------
 
@@ -246,13 +255,13 @@ ALTER TABLE `vat`
 -- AUTO_INCREMENT pour la table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `invoices`
 --
 ALTER TABLE `invoices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 
 --
 -- AUTO_INCREMENT pour la table `products`

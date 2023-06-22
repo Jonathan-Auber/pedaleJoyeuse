@@ -1,0 +1,5 @@
+#!/bin/sh
+rsync -av ./ jonathan-auber@ssh-jonathan-auber.alwaysdata.net:~/www/pedaleJoyeuse --include=public/.htaccess --exclude-from=.gitignore --exclude=".*"
+
+#Se connecter en ssh à always data (ssh jonathan-auber@ssh-jonathan-auber.alwaysdata.net)
+# ./deploy dans le terminer pour lancer l'executable
