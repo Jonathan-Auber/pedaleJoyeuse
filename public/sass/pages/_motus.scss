@@ -1,0 +1,135 @@
+/* Game view */
+#game-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 2rem;
+  & span {
+    text-align: center;
+  }
+}
+
+#game-header {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw;
+  padding: 1rem;
+}
+
+#word-to-guess {
+  display: flex;
+  flex-wrap: nowrap;
+  margin: 1rem;
+  color: $font-secondary-color;
+}
+
+.game-legend {
+  box-shadow: 0px 0px 10px 0px rgb(0, 0, 0);
+  width: 25%;
+  margin-top: 10vh;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  &__text {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    margin: 1rem auto;
+    padding: 0.5rem;
+    color: white;
+    &-legend {
+      display: inline-block;
+      width: 40px;
+      height: 35px;
+      margin-left: 0.8rem;
+    }
+  }
+}
+
+#guess-container {
+  width: 65%;
+  color: $font-secondary-color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  & div {
+    margin: 0.5rem 20rem 0.5rem 0rem;
+  }
+}
+
+.letter_container {
+  margin: 0.1rem;
+  padding: 0.5rem;
+  font-size: 2rem;
+  display: inline-block;
+  width: 60px;
+  border: solid black 0.5px;
+  background-color: white;
+  text-transform: uppercase;
+}
+
+.good {
+  background-color: $game-primary;
+  padding: 0.8rem;
+}
+
+.almost {
+  background-color: $game-secondary;
+  border-radius: 50%;
+  padding: 0.7rem;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+
+.wrong {
+  background-color: white;
+  padding: 0.5rem;
+}
+
+.endGame {
+  display: none;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+  color: $font-secondary-color;
+  &__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+    background-color: #eae0e0;
+    margin: 15% auto;
+    padding: 2rem;
+    border: 1px solid #888;
+    width: 75%;
+    animation: modalAnimation 0.5s ease-in-out;
+    -webkit-animation: modalAnimation 0.5s ease-in-out;
+    & p {
+      margin: 1rem;
+    }
+  }
+}
+
+#modal-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

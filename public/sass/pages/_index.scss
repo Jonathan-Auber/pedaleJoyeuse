@@ -1,0 +1,26 @@
+/* Index view */
+.index-container {
+  margin-top: 2vh;
+  margin: 1rem;
+  padding: 1rem;
+  &__title {
+    text-align: center;
+    margin: 3rem;
+  }
+  &__text {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    & p {
+      margin-top: 2rem;
+    }
+  }
+  &__btn {
+    margin-top: 5rem;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+  }
+}
