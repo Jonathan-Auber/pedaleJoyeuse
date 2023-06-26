@@ -26,7 +26,7 @@ class UsersRepository extends Model
             $password = htmlspecialchars(trim($_POST['password']));
             $result = $this->findAccount($username);
 
-            if ($username === $result['username'] && password_verify($password, $result['password'])) {
+            if (isset($result['username']) && $username === $result['username'] && password_verify($password, $result['password'])) {
                 $this->session->setSession($result['id'], $result['status']);
                 return TRUE;
             } else {

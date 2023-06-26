@@ -12,8 +12,8 @@
     padding: 0.5rem;
 
     & span {
-      border: $game-primary solid 1px;
-      background-color: $game-primary;
+      border: $font-tertiary-color solid 1px;
+      background-color: $font-tertiary-color;
       transition: 0.4s ease-out;
       -webkit-transition: 0.4s ease-out;
       -moz-transition: 0.4s ease-out;
@@ -111,44 +111,7 @@
     -ms-transform: translateX(0%);
     -o-transform: translateX(0%);
   }
-
-  /* MOTUS PAGE */
-
-  #game-header {
-    flex-direction: column-reverse;
-    align-items: center;
-    &__form {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-  }
-
-  #guess-container {
-    & div {
-      margin: 0.5rem;
-    }
-  }
-
-  .game-legend {
-    display: none;
-  }
-
-  .no_wrap {
-    display: flex;
-    flex-wrap: nowrap;
-  }
-  .letter_container {
-    width: 50px;
-  }
 }
 
 @media screen and (max-width: 768px) {
-  /* INDEX PAGE */
-  .index-container__btn {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    padding: 2rem;
-  }
 }

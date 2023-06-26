@@ -1,26 +1,22 @@
-/* Index view */
-.index-container {
-  margin-top: 2vh;
-  margin: 1rem;
-  padding: 1rem;
+.index {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   &__title {
-    text-align: center;
-    margin: 3rem;
+    margin-bottom: 2rem;
   }
-  &__text {
-    height: auto;
+  &__form {
+    // width: 80%;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    & p {
-      margin-top: 2rem;
-    }
-  }
-  &__btn {
-    margin-top: 5rem;
-    display: flex;
-    justify-content: space-evenly;
     align-items: center;
-    text-align: center;
+  }
+  &__input {
+    // width: 60%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: start;
   }
 }

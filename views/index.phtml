@@ -1,12 +1,14 @@
-<h1 class="text-center"><?= $indexTitle ?></h1>
-<form method="POST" action="/pedale-joyeuse/Users/login">
-  <div class="mb-3">
-    <label for="username" class="form-label">Nom d'utilisateur</label>
-    <input type="text" class="form-control" id="username" name="username">
-  </div>
-  <div class="mb-3">
-    <label for="password" class="form-label">Mots de passe</label>
-    <input type="password" class="form-control" id="password" name="password">
-  </div>
-  <div class="text-center"><button type="submit" class="btn btn-primary" name="submitLogin">Valider</button></div>
-</form>
+<main class="index">
+  <h1 class="index__title"><?= $indexTitle ?></h1>
+  <form class="index__form" method="POST" action="/pedale-joyeuse/Users/login">
+    <div class="index__input">
+      <input class="input" type="text" id="username" name="username">
+      <label for="username">Nom d'utilisateur : </label>
+    </div>
+    <div class="index__input">
+      <input class="input" type="password" id="password" name="password">
+      <label for="password">Mots de passe : </label>
+    </div>
+    <div><button type="submit" class="btn" name="submitLogin">Valider</button></div>
+  </form>
+</main>

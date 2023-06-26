@@ -12,18 +12,20 @@
 }
 
 .header__navbar__link-container {
-  width: 50vw;
+  width: 80vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: auto;
-  & a {
+  & > a {
     text-decoration: none;
-    color: $game-secondary;
-    font-family: $font-family-primary;
+    color: $font-secondary-color;
     font-size: 0.9rem;
+    & > span {
+      color: $font-tertiary-color;
+    }
   }
-  & a:hover {
-    color: $game-primary;
+  & > a:hover {
+    color: $font-tertiary-color;
   }
 }
