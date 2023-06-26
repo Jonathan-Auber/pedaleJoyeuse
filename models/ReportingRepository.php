@@ -28,7 +28,7 @@ class ReportingRepository extends Model
         FROM invoices i
         JOIN invoice_lines l ON i.id = l.invoice_id
         JOIN products p ON p.id = l.product_id
-        WHERE $period(i.creation_date) = $period(NOW()) $andUserId
+        WHERE YEAR(i.creation_date) = YEAR(NOW()) AND $period(i.creation_date) = $period(NOW()) $andUserId
         GROUP BY l.product_id");
 
         if ($userId) {
