@@ -32,6 +32,7 @@ class UsersController extends Controller
 
     public function sellerView()
     {
+        // Revoir requête
         $salesByMonth = $this->reporting->salesBy("MONTH", "AND i.user_id = ?", $_SESSION['id']);
         extract($salesByMonth);
         $monthSales = $period;
@@ -48,6 +49,7 @@ class UsersController extends Controller
 
     public function adminView()
     {
+        // Revoir requête
         $salesByDay = $this->reporting->salesBy("DAY");
         extract($salesByDay);
         $daySales = $period;
