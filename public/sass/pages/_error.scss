@@ -10,4 +10,11 @@
   &__description {
     margin: 1rem;
   }
+  &__link {
+    color: white;
+    margin: 2rem;
+  }
+  &__link:hover {
+    color: $font-tertiary-color;
+  }
 }

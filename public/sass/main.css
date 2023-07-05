@@ -170,6 +170,13 @@ main {
 .error-container__description {
   margin: 1rem;
 }
+.error-container__link {
+  color: white;
+  margin: 2rem;
+}
+.error-container__link:hover {
+  color: #da9d20;
+}
 
 /* Media Queries */
 @media screen and (max-width: 1349px) {
